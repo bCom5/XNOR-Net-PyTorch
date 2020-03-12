@@ -52,7 +52,7 @@ class BinConv2d(nn.Module): # change the name of BinConv2d
     
     def forward(self, x):
         x = self.bn(x)
-        x = BinActive(x)
+        x = BinActive.apply(x)
         if self.dropout_ratio!=0:
             x = self.dropout(x)
         if not self.Linear:
@@ -100,3 +100,16 @@ class LeNet_5(nn.Module):
         x = self.bin_ip1(x)
         x = self.ip2(x)
         return x
+
+def test():
+    net = LeNet_5()
+    x = torch.randn(1,1,28,28)
+    #flops, params = profile(net, inputs=(x, ))
+    #print('* MACs: {:,.2f}'.format(flops).replace('.00', ''))
+    #print('* Params: {:,.2f}'.format(params).replace('.00', ''))
+
+    y = net(x)
+    print(y.size())
+
+test()
+
